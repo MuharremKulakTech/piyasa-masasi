@@ -100,8 +100,7 @@ textarea{min-height:90px;resize:vertical}
 .empty{color:var(--muted);font-size:14px}
 
 /* now strip: market clock + dollar/TL */
-.now{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:12px;padding-block:16px;background:var(--ground)}
-@media (max-width:560px){.now{grid-template-columns:minmax(0,1fr)}}
+.now{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;padding-block:16px;background:var(--ground)}
 .clock{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:4px;align-content:center}
 .state{display:flex;align-items:center;gap:8px;font:800 17px/1.2 var(--f-display);color:var(--ink)}
 .state i{width:10px;height:10px;border-radius:50%;background:var(--muted);flex:none}
@@ -110,7 +109,8 @@ textarea{min-height:90px;resize:vertical}
 .cd{font-size:15px;color:var(--text);font-variant-numeric:tabular-nums}
 .cd b{color:var(--ink)}
 .tz{font-size:12px;color:var(--muted)}
-.rates{display:grid;gap:8px}
+.rates{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+@media (max-width:480px){.rates{grid-template-columns:minmax(0,1fr)}}
 .rate{background:var(--paper);border:1px solid var(--line);border-radius:10px;overflow:hidden}
 .rate-lbl{display:flex;justify-content:space-between;gap:8px;font:700 12px/1 var(--f-body);letter-spacing:.08em;text-transform:uppercase;color:var(--orange-ink);padding:10px 12px 0}
 .rate-lbl small{font:500 11px var(--f-body);letter-spacing:0;text-transform:none;color:var(--muted)}
