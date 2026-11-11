@@ -127,7 +127,8 @@ details.more p{margin:10px 0 0}
 .seg button{border:1px solid var(--line);background:var(--paper);color:var(--text);border-radius:999px;padding:8px 14px;font:600 14px var(--f-body);cursor:pointer}
 .seg button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
 .seg button:focus-visible{outline:3px solid color-mix(in srgb,var(--orange) 45%,transparent);outline-offset:2px}
-.w-quotes{height:560px}
+.w-quotes{height:1080px}
+@media (min-width:600px){.w-quotes{height:900px}}
 </style>
 </head>
 <body>
@@ -168,13 +169,7 @@ details.more p{margin:10px 0 0}
 
   <section class="sec pad" id="fiyatlar" aria-labelledby="h-px">
     <h2 class="sec-title" id="h-px">Fiyatlar: dolar ($) ve TL (₺)</h2>
-    <p class="sec-sub">Her satırın altında aynı fiyatın Türk lirası karşılığı var. TL fiyatı, canlı dolar/TL kuruyla hesaplanır; TL'deki değişim kurdaki hareketi de içerir.</p>
-    <div class="seg" role="group" aria-label="Fiyat grubu">
-      <button type="button" data-g="hisse" aria-pressed="true">Dev şirketler</button>
-      <button type="button" data-g="endeks" aria-pressed="false">Endeksler &amp; fonlar</button>
-      <button type="button" data-g="kripto" aria-pressed="false">Kripto</button>
-      <button type="button" data-g="altin" aria-pressed="false">Altın &amp; döviz</button>
-    </div>
+    <p class="sec-sub">Her dolar fiyatının hemen altında aynı fiyatın TL karşılığı var. TL fiyatı canlı dolar/TL kuruyla hesaplanır; TL'deki değişime kurdaki hareket de dahildir. Üstteki sekmelerden grup seçebilirsin.</p>
     <div class="widget w-quotes" id="w-quotes"></div>
   </section>
 
@@ -307,21 +302,18 @@ details.more p{margin:10px 0 0}
 
   // $ / ₺ price board: each item shows a dollar row and a lira row
   var GROUPS = {
-    hisse: {name:"Dev şirketler", items:[["NASDAQ:NVDA","Nvidia"],["NASDAQ:AAPL","Apple"],["NASDAQ:MSFT","Microsoft"],["NASDAQ:AMZN","Amazon"],["NASDAQ:GOOGL","Alphabet (Google)"],["NASDAQ:META","Meta"],["NASDAQ:TSLA","Tesla"],["NASDAQ:AVGO","Broadcom"],["NASDAQ:PLTR","Palantir"],["NASDAQ:AMD","AMD"],["NASDAQ:NFLX","Netflix"],["NASDAQ:SPCX","SpaceX"]]},
-    endeks: {name:"Endeksler ve fonlar", items:[["FOREXCOM:SPXUSD","S&P 500"],["FOREXCOM:NSXUSD","Nasdaq 100"],["FOREXCOM:DJI","Dow Jones"],["AMEX:VOO","VOO (S&P 500 fonu)"],["NASDAQ:QQQ","QQQ (Nasdaq 100 fonu)"]]},
+    hisse: {name:"Dev şirketler", items:[["NASDAQ:NVDA","Nvidia"],["NASDAQ:AAPL","Apple"],["NASDAQ:MSFT","Microsoft"],["NASDAQ:AMZN","Amazon"],["NASDAQ:GOOGL","Google"],["NASDAQ:META","Meta"],["NASDAQ:TSLA","Tesla"],["NASDAQ:PLTR","Palantir"]]},
+    endeks: {name:"Endeksler", items:[["FOREXCOM:SPXUSD","S&P 500"],["FOREXCOM:NSXUSD","Nasdaq 100"],["FOREXCOM:DJI","Dow Jones"],["AMEX:VOO","VOO (S&P 500 fonu)"],["NASDAQ:QQQ","QQQ (Nasdaq 100 fonu)"]]},
     kripto: {name:"Kripto", items:[["BITSTAMP:BTCUSD","Bitcoin"],["BITSTAMP:ETHUSD","Ethereum"],["COINBASE:SOLUSD","Solana"]]},
-    altin: {name:"Altın ve döviz", raw:[["TVC:GOLD","Ons altın ($)"],["TVC:GOLD*FX_IDC:USDTRY/31.1035","Gram altın (₺)"],["TVC:SILVER","Ons gümüş ($)"],["FX_IDC:USDTRY","Dolar/TL"],["FX_IDC:EURTRY","Euro/TL"],["TVC:USOIL","Petrol WTI ($)"]]}
+    altin: {name:"Altın & döviz", raw:[["TVC:GOLD","Ons altın ($)"],["TVC:GOLD*FX_IDC:USDTRY/31.1035","Gram altın (₺)"],["TVC:SILVER","Ons gümüş ($)"],["FX_IDC:USDTRY","Dolar/TL"],["FX_IDC:EURTRY","Euro/TL"],["TVC:USOIL","Petrol WTI ($)"]]}
   };
-  function showGroup(key){
+  var tabs = ["hisse", "endeks", "kripto", "altin"].map(function(key){
     var g = GROUPS[key], syms = [];
-    if (g.raw) g.raw.forEach(function(x){ syms.push({name:x[0], displayName:x[1]}); });
-    else g.items.forEach(function(x){ syms.push({name:x[0], displayName:x[1] + " ($)"}); syms.push({name:tl(x[0]), displayName:x[1] + " (₺)"}); });
-    $("w-quotes").style.height = Math.min(980, 96 + syms.length * 33) + "px";
-    tv($("w-quotes"), "market-quotes", {width:"100%", height:"100%", symbolsGroups:[{name:g.name, symbols:syms}], showSymbolLogo:true, isTransparent:true, colorTheme:theme, locale:"tr"});
-    Array.prototype.forEach.call(document.querySelectorAll(".seg button"), function(b){ b.setAttribute("aria-pressed", b.dataset.g === key ? "true" : "false"); });
-  }
-  Array.prototype.forEach.call(document.querySelectorAll(".seg button"), function(b){ b.addEventListener("click", function(){ showGroup(b.dataset.g); }); });
-  showGroup("hisse");
+    if (g.raw) g.raw.forEach(function(x){ syms.push({s:x[0], d:x[1]}); });
+    else g.items.forEach(function(x){ syms.push({s:x[0], d:x[1] + " · dolar ($)"}); syms.push({s:tl(x[0]), d:x[1] + " · TL (₺)"}); });
+    return {title:g.name, symbols:syms};
+  });
+  tv($("w-quotes"), "market-overview", {colorTheme:theme, dateRange:"1D", showChart:false, locale:"tr", width:"100%", height:"100%", isTransparent:true, showSymbolLogo:true, showFloatingTooltip:false, tabs:tabs});
 
   // US market clock in Türkiye time (NYSE regular hours 09:30-16:00 New York, holidays and half days included)
   var HOLIDAYS = {"2026-11-26":1,"2026-12-25":1,"2027-01-01":1,"2027-01-18":1,"2027-02-15":1,"2027-03-26":1,"2027-05-31":1,"2027-06-18":1,"2027-07-05":1,"2027-09-06":1,"2027-11-25":1,"2027-12-24":1};
