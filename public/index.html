@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Piyasa Masası</title>
+<meta name="description" content="Amerikan borsasının günlük haberleri sade Türkçe ile, canlı fiyatlarla. Her gün ABD borsası açılmadan önce, ücretsiz.">
+<meta property="og:title" content="Piyasa Masası · ABD borsası, Türkçe">
+<meta property="og:description" content="Amerikan borsasının günlük haberleri sade Türkçe ile, canlı fiyatlarla. Ücretsiz.">
+<meta name="theme-color" content="#000000">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: a newsletter column (like the daily e-mail) on a grey ground; live market widgets inline between sections. */
+:root{
+  --ground:#eeeeef; --paper:#ffffff; --ink:#151515; --text:#333333; --muted:#6b6b6b; --line:#e4e4e4;
+  --orange:#c2410c; --orange-ink:#9a3412; --orange-soft:#fff1e6; --black:#000000; --up:#15803d; --down:#b91c1c;
+  --f-display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --f-body:"Inter",Arial,Helvetica,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root{
+  --ground:#0b0b0c; --paper:#17181a; --ink:#f1f1f1; --text:#d6d6d6; --muted:#9b9b9b; --line:#2a2b2e;
+  --orange:#e8590c; --orange-ink:#ff9a5c; --orange-soft:#2a1a10; --up:#4ade80; --down:#f87171; color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--text);font:16px/1.55 var(--f-body)}
+a{color:var(--orange-ink)}
+.col{max-width:720px;margin:0 auto;background:var(--paper)}
+.pad{padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.wide{max-width:720px;margin:0 auto}
+
+.band{background:var(--orange);text-align:center;padding-block:11px}
+.band a{color:#111;font-weight:700;font-size:15px}
+.mast{background:var(--black);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:20px}
+.logo{font:800 30px/1 var(--f-display);letter-spacing:-.03em;color:#fff;text-decoration:none}
+.logo span{color:#f97316}
+.logo small{display:block;font:500 12px/1.2 var(--f-body);letter-spacing:.02em;color:#bdbdbd;margin-top:6px}
+.reader{color:#fff;font-size:13px;display:flex;align-items:center;gap:7px;border:1px solid #333;border-radius:999px;padding:6px 12px}
+.reader b{font-variant-numeric:tabular-nums}
+.dot{width:8px;height:8px;border-radius:50%;background:#22c55e}
+.tape{background:var(--paper);border-bottom:1px solid var(--line);min-height:46px}
+
+.lead{padding-block:24px 26px}
+.kicker{font-size:14px;color:var(--muted)}
+.kicker b{color:var(--ink)}
+.rule{border:0;border-top:2px solid var(--line);margin:14px 0 18px}
+h1{font:800 clamp(28px,5.2vw,38px)/1.2 var(--f-display);color:var(--ink);margin:0;text-wrap:balance;letter-spacing:-.01em}
+.summary{font-size:17px;color:var(--text);margin:16px 0 22px}
+.cta{display:block;text-align:center;background:var(--orange);color:#fff;font:700 18px/1 var(--f-body);padding:16px;border-radius:10px;text-decoration:none}
+.notice{background:var(--orange-soft);color:var(--ink);font-size:13px;padding-block:10px;border-top:1px solid var(--line)}
+
+.sec{padding-block:26px 6px}
+.sec-title{font:700 13px/1 var(--f-body);letter-spacing:.12em;text-transform:uppercase;color:var(--orange-ink);border-bottom:2px solid var(--orange);padding-bottom:8px;margin:0 0 4px}
+.sec-sub{font-size:13px;color:var(--muted);margin:8px 0 12px}
+
+.story{padding:18px 0;border-bottom:1px solid var(--line)}
+.story:last-child{border-bottom:0}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.tag{font:700 11px/1 var(--f-body);letter-spacing:.06em;text-transform:uppercase;padding:5px 7px;border-radius:4px;background:var(--ground);color:var(--muted)}
+.tag.up{background:color-mix(in srgb,var(--up) 14%,transparent);color:var(--up)}
+.tag.down{background:color-mix(in srgb,var(--down) 14%,transparent);color:var(--down)}
+.tag.tk{font-family:ui-monospace,Menlo,monospace;letter-spacing:0;text-transform:none;color:var(--ink)}
+.story h3{font:700 20px/1.3 var(--f-display);color:var(--ink);margin:0 0 6px;text-wrap:balance}
+.story p{margin:0 0 8px}
+.means{color:var(--orange-ink)}
+.chart{margin:10px 0 6px;border:1px solid var(--line);border-radius:10px;overflow:hidden;height:170px;background:var(--paper)}
+
+.widget{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--paper)}
+.w-overview{height:460px}
+.w-heat{height:520px}
+@media (max-width:520px){.w-heat{height:420px}}
+
+.mention{display:grid;grid-template-columns:70px minmax(0,1fr);gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.mention:last-child{border-bottom:0}
+.mention b{font-family:ui-monospace,Menlo,monospace;color:var(--ink)}
+.mention span{color:var(--muted)}
+.mention em{font-style:normal;color:var(--ink);font-weight:600}
+
+.term{background:var(--orange-soft);border-radius:10px;padding:16px 18px;margin-top:12px}
+.term h3{font:800 19px/1.2 var(--f-display);color:var(--ink);margin:0 0 6px}
+.term p{margin:0}
+
+.cal{display:grid;gap:14px;margin-top:10px}
+.cal h3{font:700 15px var(--f-body);color:var(--ink);margin:0 0 4px}
+.cal ul{margin:0;padding-left:18px;font-size:14px;display:grid;gap:3px}
+
+form{display:grid;gap:10px;margin-top:12px}
+label{font-size:13px;font-weight:600;color:var(--ink)}
+input,textarea,select{width:100%;font:15px var(--f-body);color:var(--ink);background:var(--ground);border:1px solid var(--line);border-radius:8px;padding:11px 12px}
+textarea{min-height:90px;resize:vertical}
+.btn{border:0;border-radius:10px;background:var(--orange);color:#fff;font:700 16px var(--f-body);padding:13px;cursor:pointer}
+.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,.cta:focus-visible{outline:3px solid color-mix(in srgb,var(--orange) 45%,transparent);outline-offset:2px}
+.fine{font-size:12px;color:var(--muted);margin:0}
+.ok{color:var(--up);font-weight:600;margin:0} .err{color:var(--down);font-weight:600;margin:0}
+.hp{position:absolute;left:-9999px}
+.sources{font-size:13px;color:var(--muted);padding-left:18px;margin:10px 0 0}
+.sources li{margin-bottom:4px}
+.foot{padding-block:24px 30px;font-size:12px;line-height:1.6;color:var(--muted);border-top:1px solid var(--line);margin-top:26px}
+.foot strong{color:var(--ink)}
+.empty{color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+
+<div class="col">
+  <div class="band pad"><a href="#abone">Her gün ABD borsası açılmadan önce e-postanda · Ücretsiz abone ol</a></div>
+  <header class="mast pad">
+    <a class="logo" href="/">Piyasa<span>Masası</span><small>ABD borsası, sade Türkçe ile</small></a>
+    <span class="reader" id="reader-chip" title="Bugün (Türkiye saati) siteyi açan tekil okuyucu sayısı"><span class="dot"></span>Bugün <b id="reader-count">…</b> okuyucu</span>
+  </header>
+  <div class="tape" id="w-tape" aria-label="Canlı piyasa fiyatları"></div>
+
+  <section class="lead pad">
+    <div class="kicker"><b>Günün Özeti</b> | <span id="date-label">…</span></div>
+    <hr class="rule">
+    <h1 id="headline">Bugünün raporu yükleniyor</h1>
+    <p class="summary" id="summary">Amerikan borsasının günlük haberleri, borsa açılmadan önce (Türkiye saatiyle 17:30) sade Türkçe ile burada.</p>
+    <a class="cta" href="#haberler">Günün haberlerini oku</a>
+  </section>
+  <div class="notice pad">Bu site yalnızca haber ve bilgi amaçlıdır; burada yazılanlar <strong>yatırım tavsiyesi değildir</strong>.</div>
+
+  <section class="sec pad" aria-labelledby="h-live">
+    <h2 class="sec-title" id="h-live">Canlı piyasa</h2>
+    <p class="sec-sub">Endeksler, kripto, emtia ve dolar/TL. Fiyatlar canlı veya birkaç dakika gecikmeli gelir.</p>
+    <div class="widget w-overview" id="w-overview"></div>
+  </section>
+
+  <section class="sec pad" id="haberler" aria-labelledby="h-news">
+    <h2 class="sec-title" id="h-news">Günün haberleri</h2>
+    <div id="news"><p class="empty">Haberler yükleniyor…</p></div>
+  </section>
+
+  <section class="sec pad" aria-labelledby="h-heat">
+    <h2 class="sec-title" id="h-heat">S&amp;P 500 ısı haritası</h2>
+    <p class="sec-sub">Kutular şirket büyüklüğüne göre, renkler bugünkü değişime göre. Yeşil yükselen, kırmızı düşen.</p>
+    <div class="widget w-heat" id="w-heat"></div>
+  </section>
+
+  <section class="sec pad" id="mentions-sec" aria-labelledby="h-men" hidden>
+    <h2 class="sec-title" id="h-men">Dev şirketlerde gündem</h2>
+    <div id="mentions"></div>
+  </section>
+
+  <section class="sec pad" id="term-sec" hidden>
+    <h2 class="sec-title">Günün terimi</h2>
+    <div class="term"><h3 id="term-name"></h3><p id="term-text"></p></div>
+  </section>
+
+  <section class="sec pad" aria-labelledby="h-cal">
+    <h2 class="sec-title" id="h-cal">Takvim</h2>
+    <div class="cal" id="calendar"></div>
+  </section>
+
+  <section class="sec pad" id="abone" aria-labelledby="h-sub">
+    <h2 class="sec-title" id="h-sub">Ücretsiz abone ol</h2>
+    <p class="sec-sub">Bu özet her gün e-postana gelsin.</p>
+    <form name="abone" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="form-abone">
+      <input type="hidden" name="form-name" value="abone">
+      <p class="hp"><label>Bunu boş bırak <input name="bot-field" id="abone-bot"></label></p>
+      <label for="abone-email">E-posta adresin</label>
+      <input id="abone-email" type="email" name="email" required placeholder="ornek@mail.com" autocomplete="email">
+      <button class="btn" type="submit">Abone ol</button>
+      <p class="fine">E-posta adresin yalnızca bülteni göndermek için kullanılır, kimseyle paylaşılmaz. İstediğin zaman bültenden çıkabilirsin.</p>
+      <p class="ok" id="abone-ok" hidden>Teşekkürler! Listeye eklendin.</p>
+      <p class="err" id="abone-err" hidden>Kaydedilemedi. Bağlantını kontrol edip tekrar dene.</p>
+    </form>
+  </section>
+
+  <section class="sec pad" aria-labelledby="h-arc">
+    <h2 class="sec-title" id="h-arc">Önceki günler</h2>
+    <label for="arc-select" class="hp">Tarih seç</label>
+    <select id="arc-select" style="margin-top:12px"><option>Yükleniyor…</option></select>
+  </section>
+
+  <section class="sec pad" id="sponsor" aria-labelledby="h-sp">
+    <h2 class="sec-title" id="h-sp">Sponsor olun</h2>
+    <p class="sec-sub">Markanızı ABD borsasını takip eden Türk yatırımcılara gösterin.</p>
+    <form name="sponsor" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="form-sponsor">
+      <input type="hidden" name="form-name" value="sponsor">
+      <p class="hp"><label>Bunu boş bırak <input name="bot-field" id="sp-bot"></label></p>
+      <label for="sp-name">Firma / ad</label>
+      <input id="sp-name" name="firma" required autocomplete="organization">
+      <label for="sp-email">E-posta</label>
+      <input id="sp-email" type="email" name="email" required autocomplete="email">
+      <label for="sp-msg">Mesajınız</label>
+      <textarea id="sp-msg" name="mesaj"></textarea>
+      <button class="btn" type="submit">Gönder</button>
+      <p class="ok" id="sp-ok" hidden>Mesajınız ulaştı, en kısa sürede dönüş yapılacak.</p>
+      <p class="err" id="sp-err" hidden>Gönderilemedi. Lütfen tekrar deneyin.</p>
+    </form>
+  </section>
+
+  <section class="sec pad" aria-labelledby="h-src">
+    <h2 class="sec-title" id="h-src">Kaynaklar</h2>
+    <ol class="sources" id="sources"></ol>
+  </section>
+
+  <footer class="foot pad">
+    <p><strong>Yasal uyarı:</strong> Piyasa Masası, ABD piyasalarıyla ilgili kamuya açık haberlerin Türkçe özetidir. Buradaki bilgi, yorum ve veriler yatırım danışmanlığı kapsamında değildir ve hiçbir menkul kıymetin alım-satımı için öneri niteliği taşımaz. Canlı grafikler TradingView tarafından sağlanır; veriler gecikmeli olabilir.</p>
+    <p>Hazırlayan: Muharrem Kulak · Haber özetleri yapay zekâ desteğiyle hazırlanır · <a href="/istatistik">Okuyucu istatistikleri</a></p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var RAW = "https://raw.githubusercontent.com/MuharremKulakTech/piyasa-masasi/main/public/data/";
+  var $ = function(id){ return document.getElementById(id); };
+  var dark = window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches;
+  var theme = dark ? "dark" : "light";
+  function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+
+  // TradingView embeds: the widget script reads its config from the script tag's text.
+  function tv(el, name, cfg){
+    if (!el) return;
+    el.innerHTML = '<div class="tradingview-widget-container" style="height:100%;width:100%"><div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div></div>';
+    var s = document.createElement("script");
+    s.src = "https://s3.tradingview.com/external-embedding/embed-widget-" + name + ".js";
+    s.async = true; s.type = "text/javascript";
+    s.text = JSON.stringify(cfg);
+    el.firstChild.appendChild(s);
+  }
+  var TV_MAP = {"BRK.B":"NYSE:BRK.B","SPCX":"NASDAQ:SPCX","VOO":"AMEX:VOO","SPY":"AMEX:SPY","QQQ":"NASDAQ:QQQ"};
+  function tvSym(t){ t = String(t || "").toUpperCase().trim(); return TV_MAP[t] || t; }
+
+  tv($("w-tape"), "ticker-tape", {
+    symbols: [
+      {proName:"FOREXCOM:SPXUSD", title:"S&P 500"}, {proName:"FOREXCOM:NSXUSD", title:"Nasdaq 100"},
+      {proName:"FOREXCOM:DJI", title:"Dow Jones"}, {proName:"FX_IDC:USDTRY", title:"Dolar/TL"},
+      {proName:"BITSTAMP:BTCUSD", title:"Bitcoin"}, {proName:"TVC:GOLD", title:"Altın"},
+      {proName:"TVC:USOIL", title:"Petrol"}, {proName:"NASDAQ:NVDA", title:"Nvidia"},
+      {proName:"NASDAQ:AAPL", title:"Apple"}, {proName:"NASDAQ:TSLA", title:"Tesla"}, {proName:"NASDAQ:MSFT", title:"Microsoft"}
+    ], showSymbolLogo:true, isTransparent:true, displayMode:"adaptive", colorTheme:theme, locale:"tr"
+  });
+  tv($("w-overview"), "market-overview", {
+    colorTheme:theme, dateRange:"1D", showChart:true, locale:"tr", width:"100%", height:"100%", isTransparent:true,
+    showSymbolLogo:true, showFloatingTooltip:true,
+    tabs:[
+      {title:"Endeksler", symbols:[{s:"FOREXCOM:SPXUSD",d:"S&P 500"},{s:"FOREXCOM:NSXUSD",d:"Nasdaq 100"},{s:"FOREXCOM:DJI",d:"Dow Jones"},{s:"CAPITALCOM:US2000",d:"Russell 2000"}]},
+      {title:"Kripto", symbols:[{s:"BITSTAMP:BTCUSD",d:"Bitcoin"},{s:"BITSTAMP:ETHUSD",d:"Ethereum"},{s:"COINBASE:SOLUSD",d:"Solana"}]},
+      {title:"Emtia", symbols:[{s:"TVC:GOLD",d:"Altın"},{s:"TVC:SILVER",d:"Gümüş"},{s:"TVC:USOIL",d:"Petrol (WTI)"}]},
+      {title:"Döviz & faiz", symbols:[{s:"FX_IDC:USDTRY",d:"Dolar/TL"},{s:"FX_IDC:EURTRY",d:"Euro/TL"},{s:"TVC:US10Y",d:"ABD 10 yıllık faiz"}]}
+    ]
+  });
+  tv($("w-heat"), "stock-heatmap", {
+    exchanges:[], dataSource:"SPX500", grouping:"sector", blockSize:"market_cap_basic", blockColor:"change",
+    locale:"tr", symbolUrl:"", colorTheme:theme, hasTopBar:false, isDataSetEnabled:false, isZoomEnabled:true,
+    hasSymbolTooltip:true, isMonoSize:false, width:"100%", height:"100%"
+  });
+
+  function getJSON(path){
+    var bust = "?t=" + Math.floor(Date.now() / 300000);
+    return fetch("/data/" + path + bust).then(function(r){ if (!r.ok) throw 0; return r.json(); })
+      .catch(function(){ return fetch(RAW + path + bust).then(function(r){ if (!r.ok) throw 0; return r.json(); }); });
+  }
+  function trDate(d, opts){ return new Date(d + "T12:00:00").toLocaleDateString("tr-TR", opts || {day:"numeric", month:"long", year:"numeric"}); }
+
+  function render(d){
+    $("headline").textContent = d.headline || "Günün özeti";
+    $("summary").textContent = d.summary ? "Piyasa Masası — " + d.summary : "";
+    $("date-label").textContent = d.date ? trDate(d.date, {day:"numeric", month:"long", year:"numeric", weekday:"long"}) : "";
+
+    var news = d.news || [];
+    $("news").innerHTML = news.length ? news.map(function(n, i){
+      var imp = n.impact === "up" ? '<span class="tag up">Olumlu</span>' : n.impact === "down" ? '<span class="tag down">Olumsuz</span>' : "";
+      var tags = imp + (n.sector ? '<span class="tag">' + esc(n.sector) + "</span>" : "");
+      (n.tickers || []).forEach(function(t){ tags += '<span class="tag tk">' + esc(t) + "</span>"; });
+      var chart = (n.tickers && n.tickers.length) ? '<div class="chart" data-sym="' + esc(n.tickers[0]) + '"></div>' : "";
+      return '<article class="story"><div class="tags">' + tags + "</div><h3>" + esc(n.title) + "</h3><p>" + esc(n.summary) + "</p>" + chart +
+        (n.anlami ? '<p class="means"><b>Bu ne demek?</b> ' + esc(n.anlami) + "</p>" : "") + "</article>";
+    }).join("") : '<p class="empty">Bugün için haber yok.</p>';
+
+    // mini charts load as they come near the screen
+    var charts = Array.prototype.slice.call(document.querySelectorAll(".chart[data-sym]"));
+    function loadChart(el){
+      if (el.dataset.done) return; el.dataset.done = "1";
+      tv(el, "mini-symbol-overview", {symbol:tvSym(el.dataset.sym), width:"100%", height:"100%", locale:"tr", dateRange:"1M", colorTheme:theme, isTransparent:true, autosize:true, largeChartUrl:"", chartOnly:false, noTimeScale:false});
+    }
+    if ("IntersectionObserver" in window){
+      var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ loadChart(e.target); io.unobserve(e.target); } }); }, {rootMargin:"400px"});
+      charts.forEach(function(c){ io.observe(c); });
+    } else { charts.forEach(loadChart); }
+
+    var men = (d.bigcaps || []).filter(function(b){ return b.note; });
+    $("mentions-sec").hidden = !men.length;
+    $("mentions").innerHTML = men.map(function(b){ return '<div class="mention"><b>' + esc(b.ticker) + "</b><span><em>" + esc(b.name) + "</em> · " + esc(b.note) + "</span></div>"; }).join("");
+
+    if (d.term && d.term.name){ $("term-sec").hidden = false; $("term-name").textContent = d.term.name; $("term-text").textContent = d.term.text || ""; }
+    else { $("term-sec").hidden = true; }
+
+    $("calendar").innerHTML = (d.calendar || []).map(function(c){ return "<div><h3>" + esc(c.day) + "</h3><ul>" + (c.items || []).map(function(i){ return "<li>" + esc(i) + "</li>"; }).join("") + "</ul></div>"; }).join("") || '<p class="empty">Takvim yok.</p>';
+    $("sources").innerHTML = (d.sources || []).map(function(s){ return '<li><a href="' + esc(s.url) + '" target="_blank" rel="noopener nofollow">' + esc(s.title) + "</a></li>"; }).join("");
+  }
+
+  getJSON("latest.json").then(render).catch(function(){ $("headline").textContent = "Rapor şu an yüklenemedi"; $("summary").textContent = "Lütfen birkaç dakika sonra sayfayı yenile."; });
+
+  getJSON("index.json").then(function(ix){
+    var dates = (ix.dates || []).slice().sort().reverse();
+    var sel = $("arc-select");
+    sel.innerHTML = dates.map(function(dt){ return '<option value="' + esc(dt) + '">' + trDate(dt, {day:"numeric", month:"long", year:"numeric", weekday:"short"}) + "</option>"; }).join("");
+    sel.addEventListener("change", function(){ getJSON("arsiv/" + sel.value + ".json").then(function(d){ render(d); window.scrollTo({top:0, behavior:"smooth"}); }); });
+  }).catch(function(){ $("arc-select").innerHTML = "<option>Arşiv yok</option>"; });
+
+  // reader counter
+  var id = null;
+  try { id = localStorage.getItem("pm_vid"); if (!id) { id = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(36).slice(2)); localStorage.setItem("pm_vid", id); } } catch (e) {}
+  if (!id) { id = "s-" + Date.now().toString(36) + Math.random().toString(36).slice(2, 10); }
+  id = id.replace(/[^A-Za-z0-9-]/g, "").slice(0, 64);
+  fetch("/api/ziyaret", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({id: id})})
+    .then(function(r){ return r.json(); })
+    .then(function(j){ $("reader-count").textContent = (j.bugun || 0).toLocaleString("tr-TR"); })
+    .catch(function(){ $("reader-chip").hidden = true; });
+
+  function wire(formId, okId, errId){
+    var f = $(formId);
+    f.addEventListener("submit", function(e){
+      e.preventDefault(); $(okId).hidden = true; $(errId).hidden = true;
+      fetch("/", {method:"POST", headers:{"Content-Type":"application/x-www-form-urlencoded"}, body: new URLSearchParams(new FormData(f)).toString()})
+        .then(function(r){ if (!r.ok) throw 0; $(okId).hidden = false; f.reset(); })
+        .catch(function(){ $(errId).hidden = false; });
+    });
+  }
+  wire("form-abone", "abone-ok", "abone-err");
+  wire("form-sponsor", "sp-ok", "sp-err");
+})();
+</script>
+</body>
+</html>

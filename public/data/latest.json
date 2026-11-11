@@ -1,0 +1,473 @@
+{
+ "date": "2026-11-11",
+ "asOfLabel": "11 Kas 2026 · 16:10 TSİ (ABD 08:10)",
+ "headline": "Sıcak enflasyon piyasayı düşürdü, CoreWeave'in güçlü rakamları vadelileri toparladı: Nasdaq vadelisi ~%1,7 yukarıda",
+ "summary": "Salı Ekim enflasyonu beklentinin üzerinde geldi (aylık %0,4, çekirdek %0,3); 10 yıllık faiz kısa süre %5'i aştı ve S&P 500 %0,38, Nasdaq %0,74 düştü. Nvidia, CEO Huang soruşturmasıyla iki günde ~%10 kaybetti. Bu sabah tablo tersine döndü: CoreWeave gelirini %168 artırıp yıllık hedefini yükseltince yapay zekâ hisseleri açılış öncesi toparlanıyor (Nvidia ~+%4-5, CoreWeave ~+%13-17). Rigetti gelirde büyük ıskaladı; D-Wave bilanço sonrası ~%8 düştü. Bugün Gaziler Günü: borsa açık, tahvil piyasası kapalı. Anthropic halka arzı (ANT) için fiyat aralığı 70-78 $; işlem gelecek hafta başlayabilir.",
+ "indices": [
+  {
+   "chg": -0.38,
+   "name": "S&P 500",
+   "note": "10 Kas kapanış; vadeli bu sabah ~+%0,75-0,85",
+   "value": 7520.93
+  },
+  {
+   "chg": -0.74,
+   "name": "Nasdaq",
+   "note": "10 Kas kapanış; Nasdaq-100 vadeli ~+%1,6-1,9",
+   "value": 25065.88
+  },
+  {
+   "chg": -0.3,
+   "name": "Dow Jones",
+   "note": "10 Kas kapanış (−158 puan); vadeli ~yatay",
+   "value": 52231.89
+  },
+  {
+   "chg": -0.68,
+   "name": "Russell 2000",
+   "note": "10 Kas kapanış; vadeli ~+%0,5-0,8",
+   "value": 2821.38
+  }
+ ],
+ "macro": [
+  {
+   "name": "10 yıllık tahvil",
+   "note": "10 Kas kapanış (+10 baz puan); gün içinde %5'i aştı. 2 yıllık %4,73 (+17 bp). Bugün tahvil piyasası kapalı",
+   "value": "%4,98"
+  },
+  {
+   "chg": -0.93,
+   "name": "Petrol (WTI)",
+   "note": "10 Kas kapanış; 31 Ağustos'tan beri en düşük. Bu sabah ~$87 (+%1-1,5)",
+   "value": "$86,04"
+  },
+  {
+   "chg": -2.05,
+   "name": "Altın",
+   "note": "10 Kas; bu sabah ~$4.050 (+%0,5)",
+   "value": "$4.030"
+  },
+  {
+   "chg": -2.31,
+   "name": "VIX (korku endeksi)",
+   "note": "10 Kas kapanış; bu sabah ~18,5",
+   "value": "19,46"
+  }
+ ],
+ "crypto": [
+  {
+   "chg": -1.1,
+   "name": "Bitcoin",
+   "note": "11 Kas sabahı, 24 saat. Hisseler toparlanırken BTC yerinde sayıyor; ETF'lerden 4 gündür çıkış, korku-açgözlülük 26 (korku)",
+   "price": 73776.72,
+   "symbol": "BTC"
+  },
+  {
+   "chg": -2.4,
+   "name": "Ethereum",
+   "note": "11 Kas sabahı, 24 saat",
+   "price": 2065.22,
+   "symbol": "ETH"
+  },
+  {
+   "chg": -3.5,
+   "name": "Solana",
+   "note": "11 Kas sabahı, 24 saat; güncel fiyat doğrulanamadı",
+   "price": null,
+   "symbol": "SOL"
+  }
+ ],
+ "news": [
+  {
+   "title": "Sıcak enflasyon faizi %5'e taşıdı, Fed'den artırım sinyali",
+   "summary": "Ekim'de tüketici fiyatları aylık %0,4, çekirdek fiyatlar %0,3 arttı; çekirdek enflasyon bu yıl 10 ayın 5'inde %0,3 veya üzerinde. 10 yıllık faiz gün içinde %5'i aştı. Fed Guvernörü Waller Aralık'ta çeyrek puan artırıma yakın, Dallas Fed Başkanı Logan iki artırım daha gerektiğini söyledi. Piyasa Aralık artırımına ~%90 ihtimal veriyor.",
+   "impact": "down",
+   "sector": "Makro",
+   "tickers": [
+    "VOO"
+   ],
+   "anlami": "Faizler yükselince borçla büyüyen ve henüz kâr etmeyen şirketlerin hisseleri genelde daha çok baskı görür. Geniş endeks fonlarında etki daha sınırlı kalır."
+  },
+  {
+   "title": "CoreWeave'in güçlü rakamları yapay zekâ hisselerini toparlıyor",
+   "summary": "CoreWeave 3. çeyrekte gelirini %168 artırarak 3,66 milyar $'a çıkardı ve yıllık hedefini yükseltti. Hisse açılış öncesi ~%13-17, Nasdaq-100 vadelileri ~%1,7 yukarıda; Lumentum, Coherent, Marvell, Dell, Bloom Energy gibi yapay zekâ donanım hisseleri de yükseliyor.",
+   "impact": "up",
+   "sector": "Yapay zekâ",
+   "tickers": [
+    "CRWV",
+    "IREN",
+    "LITE",
+    "ALAB",
+    "NVDA"
+   ],
+   "anlami": "Yapay zekâ altyapısına talebin sürdüğünü gösteren bir veri. Yine de tek bir şirketin sonucu, bütün sektör için kesin bir eğilim sayılmaz."
+  },
+  {
+   "title": "Nvidia'da CEO krizi: iki günde ~%10 düşüş, bu sabah toparlanma",
+   "summary": "Huang çalışanlarına evlilik dışı ilişkisini kabul etti; New York Times ilişkinin ABD yetkililerince Çin istihbaratıyla bağlantılı görülen bir eski yöneticiyle olduğunu yazdı. Yönetim kurulu bağımsız soruşturma başlattı ve güvenlik ihlali işareti görmediğini, Huang'a güvendiğini söyledi. Trump Huang'ı 'onurlu biri' olarak tanımladı; Meclis'teki Cumhuriyetçiler brifing istedi. Baird hisseyi 'nötr'e düşürdü. Hisse bu sabah ~%4-5 yukarıda.",
+   "impact": "neutral",
+   "sector": "Çip",
+   "tickers": [
+    "NVDA",
+    "AMD",
+    "AVGO"
+   ],
+   "anlami": "Nvidia, S&P 500'ün en büyük şirketlerinden biri. Bu yüzden hissedeki sert hareketler endeks fonlarını da dolaylı olarak etkiler. 17 Kasım bilançosu sıradaki önemli tarih."
+  },
+  {
+   "title": "Rigetti gelirde büyük ıskaladı, D-Wave zararla düştü; Quantinuum ayrıştı",
+   "summary": "Rigetti 3. çeyrekte 1,4 milyon $ gelir açıkladı (beklenti ~3,5 milyon $), yıllık rehberi de beklentinin altında; hisse kapanış sonrası ~%6-13 düştü. D-Wave geliri aştı ama zarar genişledi, hisse ~%8 geriledi; TD Cowen yine de 44 $ hedef verdi. Quantinuum ise Salı %7,4 yükselerek 43 $'dan kapandı.",
+   "impact": "down",
+   "sector": "Kuantum",
+   "tickers": [
+    "RGTI",
+    "QBTS",
+    "QNT",
+    "IONQ"
+   ],
+   "anlami": "Üç şirket de aynı devlet desteğini almış olsa da iş sonuçları çok farklı. Bu tür küçük ve zarar eden şirketlerde hem sert yükselişler hem sert düşüşler görülebilir."
+  },
+  {
+   "title": "Anthropic halka arz fiyat aralığını açıkladı: 70-78 $",
+   "summary": "Claude'un yapımcısı Anthropic, Nasdaq'ta 'ANT' koduyla 825 milyon hisse satıp en fazla 64,4 milyar $ toplamayı hedefliyor; değerleme 1,4 trilyon $'a kadar. Google ve Nvidia dahil yedi ortak 26 milyar $'lık hisse alacak. Yıllık gelir hızı ~81 milyar $. İşlem gelecek hafta başlayabilir.",
+   "impact": "neutral",
+   "sector": "Yapay zekâ",
+   "tickers": [
+    "GOOGL",
+    "NVDA",
+    "AVGO",
+    "MSFT"
+   ],
+   "anlami": "Şirket halka arz olmadan hissesi borsadan alınamaz. İşlem başladıktan sonraki ilk günler genellikle çok oynak geçer."
+  },
+  {
+   "title": "Costco'dan hisse başı 30 $ özel temettü",
+   "summary": "Costco toplam ~13,3 milyar $'lık özel temettü (kayıt 24 Kas, ödeme 4 Ara) açıkladı ve 4 milyar $'lık geri alım programını yeniledi; hisse kapanış sonrası ~%1,6 yükseldi.",
+   "impact": "up",
+   "sector": "ETF",
+   "tickers": [
+    "COST"
+   ],
+   "anlami": "Özel temettü, şirketin biriken nakdinin bir kısmını hissedarlara dağıtmasıdır. Ödeme, kayıt tarihinde hisseyi elinde tutanlara yapılır."
+  },
+  {
+   "title": "Jefferies Corning'i 'al' ile takibe aldı",
+   "summary": "Jefferies Corning için 134 $ hedef fiyat verdi (Salı kapanışı ~112 $). Aynı gün FormFactor ve Zebra'yı da 'al' ile takibe aldı.",
+   "impact": "up",
+   "sector": "Çip",
+   "tickers": [
+    "GLW"
+   ],
+   "anlami": "Analistlerin hedef fiyatları bir görüştür, garanti değildir. Farklı kurumların aynı hisse için çok farklı hedefleri olabilir."
+  },
+  {
+   "title": "Kripto hisse rallisine katılmadı",
+   "summary": "Bitcoin ~73.800 $ civarında, Ethereum ~2.065 $. ABD spot Bitcoin ETF'lerinden 4 gündür çıkış var (Salı 95 milyon $); 24 saatte 725 milyon $'lık kaldıraçlı pozisyon tasfiye edildi. Korku-açgözlülük endeksi 26 (korku).",
+   "impact": "down",
+   "sector": "Kripto",
+   "tickers": [
+    "IREN"
+   ],
+   "anlami": "Hisse piyasası toparlanırken kriptonun ayrışması, iki piyasanın her zaman aynı yönde gitmediğini gösteriyor."
+  },
+  {
+   "title": "Trump'ın hisse işlem beyanları: yeni beyan yok",
+   "summary": "En son beyan 8 Ekim tarihli (Ağustos işlemleri; ör. MSFT, META, ORCL alımları, TSLA ve WMT satışları). Bu hafta yeni bir OGE 278-T beyanı görülmedi.",
+   "impact": "neutral",
+   "sector": "Makro",
+   "tickers": [
+    "MSFT",
+    "META",
+    "TSLA"
+   ],
+   "anlami": "Bu beyanlar haftalar sonra yayımlanır ve işlemleri kimin yönettiğini göstermez. Bu yüzden bilgi amaçlı takip edilir."
+  }
+ ],
+ "bigcaps": [
+  {
+   "ticker": "TSLA",
+   "name": "Tesla",
+   "price": "$379,78 (10 Kas kapanış)",
+   "chg": 0.5,
+   "note": "Hafif yükseldi; Pazartesi San Antonio robotaksi lansmanıyla %5,5 artmıştı."
+  },
+  {
+   "ticker": "SPCX",
+   "name": "SpaceX",
+   "price": "$143,09 (10 Kas kapanış)",
+   "chg": 0.7,
+   "note": "Bu sabah ~+%2,5: Nvidia çipleri kullanan özel yapay zekâ sunucu rafı ('Kessel') haberi. Starship 15. test uçuşu en erken 13 Kas."
+  },
+  {
+   "ticker": "MSFT",
+   "name": "Microsoft",
+   "price": "~$533 (10 Kas, %2,2 düşüşten hesaplanan)",
+   "chg": -2.2,
+   "note": "Anthropic'in 'Claude Sheets' tablolama ürünü Excel'e rakip olarak görüldü, hisse %2,2 düştü."
+  },
+  {
+   "ticker": "AAPL",
+   "name": "Apple",
+   "price": "$348,51 (10 Kas)",
+   "chg": -0.62,
+   "note": "China Renaissance 'tut'tan 'al'a yükseltti, hedef 425 $."
+  },
+  {
+   "ticker": "NVDA",
+   "name": "Nvidia",
+   "price": "$168,89 (10 Kas kapanış)",
+   "chg": -5.47,
+   "note": "İki günde ~%10 düştü, piyasa değeri kısa süre 4 trilyon $'ın altına indi. Huang çalışanlarına evlilik dışı ilişkisini kabul etti; yönetim kurulu yabancı istihbarat hedeflemesi olup olmadığını soruşturuyor, ulusal güvenliğin tehlikeye girdiğine dair işaret görmediğini söylüyor. Baird 'nötr'e düşürdü (hedef 500'den 200 $'a). Bu sabah ~+%4-5 toparlanma."
+  },
+  {
+   "ticker": "AMZN",
+   "name": "Amazon",
+   "price": "",
+   "chg": 1.5,
+   "note": "Salı ~%1,5 yükseldi (kapanış fiyatı doğrulanamadı)."
+  },
+  {
+   "ticker": "GOOGL",
+   "name": "Alphabet",
+   "price": "",
+   "chg": -0.4,
+   "note": "Salı ~%0,4 geriledi (GOOG; kapanış fiyatı doğrulanamadı). Google, Anthropic halka arzında stratejik alıcılardan."
+  },
+  {
+   "ticker": "META",
+   "name": "Meta",
+   "price": "",
+   "chg": null,
+   "note": "Salı hareketi kaynaklarda çelişkili (kapanış doğrulanamadı)."
+  },
+  {
+   "ticker": "AVGO",
+   "name": "Broadcom",
+   "price": "~$332 (10 Kas, %3,9 artıştan hesaplanan)",
+   "chg": 3.91,
+   "note": "Nvidia'daki belirsizlikten faydalanan çip şirketlerinden biri olarak Salı ~%3,9 yükseldi."
+  },
+  {
+   "ticker": "NFLX",
+   "name": "Netflix",
+   "price": "",
+   "chg": null,
+   "note": ""
+  },
+  {
+   "ticker": "BRK.B",
+   "name": "Berkshire Hathaway",
+   "price": "$570,89 (6 Kas kapanış)",
+   "chg": -0.25,
+   "note": ""
+  },
+  {
+   "ticker": "V",
+   "name": "Visa",
+   "price": "",
+   "chg": null,
+   "note": ""
+  },
+  {
+   "ticker": "LLY",
+   "name": "Eli Lilly",
+   "price": "$1.354,00 (6 Kas kapanış)",
+   "chg": -0.79,
+   "note": ""
+  },
+  {
+   "ticker": "WMT",
+   "name": "Walmart",
+   "price": "$125,52 (6 Kas kapanış)",
+   "chg": -1.72,
+   "note": ""
+  },
+  {
+   "ticker": "COST",
+   "name": "Costco",
+   "price": "",
+   "chg": null,
+   "note": "Hisse başı 30 $ özel temettü açıkladı (toplam ~13,3 milyar $; kayıt tarihi 24 Kas, ödeme 4 Ara) ve 4 milyar $'lık geri alım programını yeniledi. Kapanış sonrası ~+%1,6."
+  },
+  {
+   "ticker": "XOM",
+   "name": "Exxon Mobil",
+   "price": "",
+   "chg": null,
+   "note": "Salı enerji sektörü %0,4 yükseldi; petrol ağustostan beri en düşük seviyede."
+  },
+  {
+   "ticker": "AMD",
+   "name": "AMD",
+   "price": "$508,58 (9 Kas kapanış)",
+   "chg": 13.26,
+   "note": "Pazartesi %13 sıçradıktan sonra Salı hareketi doğrulanamadı; bu sabah çip hisseleri açılış öncesi yukarıda."
+  },
+  {
+   "ticker": "ORCL",
+   "name": "Oracle",
+   "price": "$117,98 (10 Kas kapanış)",
+   "chg": -1.51,
+   "note": "Teknoloji satışıyla %1,5 düştü; şirkete özel net bir neden yok."
+  },
+  {
+   "ticker": "PLTR",
+   "name": "Palantir",
+   "price": "$160,38 (6 Kas kapanış)",
+   "chg": 3.48,
+   "note": ""
+  },
+  {
+   "ticker": "DIS",
+   "name": "Disney",
+   "price": "",
+   "chg": null,
+   "note": "Bilanço 17 Kasım (doğrula)."
+  }
+ ],
+ "calendar": [
+  {
+   "day": "Çarşamba 11 Kas (bugün)",
+   "items": [
+    "Gaziler Günü: borsa açık, tahvil piyasası kapalı",
+    "Haftalık mortgage faizleri (MBA)",
+    "Bilançolar: Corteva, Franco-Nevada, CAE, NIO"
+   ]
+  },
+  {
+   "day": "Perşembe 12 Kas",
+   "items": [
+    "İşsizlik başvuruları",
+    "Nebius (açılış öncesi); Cisco, Applied Materials, Cerebras (kapanış sonrası; doğrula)"
+   ]
+  },
+  {
+   "day": "Cuma 13 Kas",
+   "items": [
+    "08:30 Ekim ÜFE",
+    "SpaceX 15. Starship test uçuşu (en erken, onaya bağlı)"
+   ]
+  },
+  {
+   "day": "İleride",
+   "items": [
+    "Gelecek hafta: Anthropic (ANT) halka arzı işlem başlangıcı (Çarşamba-Perşembe olabilir)",
+    "17 Kas: Nvidia ve Disney bilançoları (doğrula)",
+    "18 Kas: Huang'dan istenen Meclis brifingi",
+    "24 Kas: Costco özel temettü kayıt tarihi",
+    "1 Ara: Quantinuum halka arz kilit süresi bitişi (doğrula)",
+    "8-9 Ara: Fed toplantısı (karar 9 Ara)"
+   ]
+  }
+ ],
+ "term": {
+  "name": "Çekirdek enflasyon",
+  "text": "Fiyatları çok oynak olan gıda ve enerji hariç tutularak hesaplanan enflasyondur. Fed faiz kararlarında genel enflasyondan çok bu göstergeye bakar; çünkü fiyatların kalıcı olarak nereye gittiğini daha iyi gösterir."
+ },
+ "sources": [
+  {
+   "title": "TheStreet: Stock Market Today Nov 10, 2026",
+   "url": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-nov-10-2026"
+  },
+  {
+   "title": "Capp Notes: Closing Look Nov 10",
+   "url": "https://cappnotes.substack.com/p/closing-look-tuesday-november-10"
+  },
+  {
+   "title": "Stock Titan: Market Nov 10, 2026",
+   "url": "https://www.stocktitan.net/articles/stock-market-today-live-november-10-2026"
+  },
+  {
+   "title": "Eurasia Business News: Nov 10 close",
+   "url": "https://eurasiabusinessnews.com/2026/11/11/stock-market-today-dow-jones-nasdaq-sp-500-fall-on-november-10-2026-oil-and-gold-retreat/"
+  },
+  {
+   "title": "Motley Fool: Stock Market Today Nov 10",
+   "url": "https://www.fool.com/coverage/stock-market-today/2026/11/10/stock-market-today-nov-10-wall-street-s-rally-hits-a-roadblock-as-hot-inflation-raises-the-stakes-for-the-fed/"
+  },
+  {
+   "title": "Yahoo Finance: Stock market today Nov 11",
+   "url": "https://finance.yahoo.com/markets/live/stock-market-today-wednesday-november-11-dow-sp-500-nasdaq-nvidia-treasurys-123445799.html"
+  },
+  {
+   "title": "Yahoo Finance: S&P 500, Nasdaq futures rise premarket",
+   "url": "https://finance.yahoo.com/markets/stocks/articles/p-500-nasdaq-futures-rise-095935016.html"
+  },
+  {
+   "title": "CoinCentral: Today's Market Movers",
+   "url": "https://coincentral.com/todays-market-movers-nvidia-coreweave-rally-as-futures-rebound-from-inflation-selloff"
+  },
+  {
+   "title": "Hollow Point Trading: futures Nov 11",
+   "url": "https://hollowpointtrading.substack.com/p/point-blank-nasdaq-futures-lead-the"
+  },
+  {
+   "title": "The Standard: Huang admits affair",
+   "url": "https://www.thestandard.com.hk/finance/article/347919/Huang-admits-affair-as-Nvidia-probes-foreign-intel-targeting"
+  },
+  {
+   "title": "24/7 Wall St.: D-Wave falls 7%",
+   "url": "https://247wallst.com/investing/2026/11/10/d-wave-quantum-falls-7-on-wider-than-expected-loss-despite-revenue-beat-rigetti-slides-3-ionq-holds-steady/"
+  },
+  {
+   "title": "24/7 Wall St.: TD Cowen on D-Wave",
+   "url": "https://247wallst.com/investing/2026/11/11/d-wave-quantum-crashed-60-in-2026-but-this-major-investment-bank-expects-shares-to-quadruple/"
+  },
+  {
+   "title": "24/7 Wall St.: Wednesday upgrades/downgrades",
+   "url": "https://247wallst.com/investing/2026/11/11/buy-sell-or-hold-wednesdays-top-upgrades-and-downgrades-akamai-technologies-apple-bill-holdings-corning-form-factor-guidewire-software-nvidia-riot-platforms-toast-and-more/"
+  },
+  {
+   "title": "Fortune: Anthropic IPO range",
+   "url": "https://fortune.com/2026/11/10/anthropic-ipo-price-range-ai-stock-sell-off/"
+  },
+  {
+   "title": "CoinDesk: Crypto Markets Today Nov 11",
+   "url": "https://www.coindesk.com/markets/2026/11/11/bitcoin-sits-out-stock-rebound-as-etf-outflows-extend-to-fourth-day"
+  },
+  {
+   "title": "Analytics Insight: Crypto prices today",
+   "url": "https://www.analyticsinsight.net/price-analysis/crypto-prices-today-bitcoin-slips-near-usd-73800-as-zcash-and-solana-lead-declines"
+  },
+  {
+   "title": "Costco 8-K (SEC)",
+   "url": "https://www.sec.gov/Archives/edgar/data/0000909832/000090983226000134/costex9918-k111026.htm"
+  },
+  {
+   "title": "Signal: Trump OGE disclosures",
+   "url": "https://getsignal.finance/president/donald-trump"
+  },
+  {
+   "title": "stockanalysis.com: VOO",
+   "url": "https://stockanalysis.com/etf/voo/"
+  },
+  {
+   "title": "Gotrade: QNT",
+   "url": "https://www.heygotrade.com/en/us-stock/qnt/"
+  },
+  {
+   "title": "Gotrade: IREN",
+   "url": "https://www.heygotrade.com/en/us-stock/iren/"
+  },
+  {
+   "title": "Gotrade: LITE",
+   "url": "https://www.heygotrade.com/en/us-stock/lite/"
+  },
+  {
+   "title": "Gotrade: ALAB",
+   "url": "https://www.heygotrade.com/en/us-stock/alab/"
+  },
+  {
+   "title": "Gotrade: Oracle Nov 10",
+   "url": "https://heygotrade.com/id/news/saham-oracle-orcl-turun-11-november-2026"
+  },
+  {
+   "title": "TIKR: Astera Labs drops 26% in a week",
+   "url": "https://www.tikr.com/blog/astera-labs-stock-drops-26-in-a-week-despite-strong-earnings-is-it-a-buy-now"
+  },
+  {
+   "title": "Nasdaq.com: VOO vs VUG",
+   "url": "https://www.nasdaq.com/articles/vanguard-500-index-fund-etf-voo-offers-broader-exposure-while-vanguard-growth-index-fund"
+  }
+ ]
+}
