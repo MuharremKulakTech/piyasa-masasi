@@ -110,7 +110,11 @@ textarea{min-height:90px;resize:vertical}
 .cd{font-size:15px;color:var(--text);font-variant-numeric:tabular-nums}
 .cd b{color:var(--ink)}
 .tz{font-size:12px;color:var(--muted)}
-.usdtry{background:var(--paper);border:1px solid var(--line);border-radius:10px;overflow:hidden;min-height:96px}
+.rates{display:grid;gap:8px}
+.rate{background:var(--paper);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.rate-lbl{display:flex;justify-content:space-between;gap:8px;font:700 12px/1 var(--f-body);letter-spacing:.08em;text-transform:uppercase;color:var(--orange-ink);padding:10px 12px 0}
+.rate-lbl small{font:500 11px var(--f-body);letter-spacing:0;text-transform:none;color:var(--muted)}
+.rate-q{min-height:70px}
 
 /* 30-second summary */
 .quick{list-style:none;margin:0 0 18px;padding:0;display:grid;gap:10px}
@@ -156,7 +160,11 @@ details.more p{margin:10px 0 0}
       <div class="cd" id="mk-cd">&nbsp;</div>
       <div class="tz" id="mk-tz">&nbsp;</div>
     </div>
-    <div class="usdtry" id="w-usdtry" aria-label="Dolar/TL canlı kur"></div>
+    <div class="rates" aria-label="Canlı döviz ve altın">
+      <div class="rate"><div class="rate-lbl">Dolar / TL <small>canlı</small></div><div class="rate-q" id="w-usdtry"></div></div>
+      <div class="rate"><div class="rate-lbl">Euro / TL <small>canlı</small></div><div class="rate-q" id="w-eurtry"></div></div>
+      <div class="rate"><div class="rate-lbl">Gram altın (₺) <small>TL bazında gram fiyatı</small></div><div class="rate-q" id="w-gram"></div></div>
+    </div>
   </div>
 
   <section class="lead pad">
@@ -287,11 +295,13 @@ details.more p{margin:10px 0 0}
 
   var USDTRY = "FX_IDC:USDTRY";
   function tl(sym){ return sym + "*" + USDTRY; }
-  tv($("w-usdtry"), "single-quote", {symbol:USDTRY, width:"100%", isTransparent:true, colorTheme:theme, locale:"tr"});
+  [["w-usdtry", USDTRY], ["w-eurtry", "FX_IDC:EURTRY"], ["w-gram", "FX_IDC:XAUTRYG"]].forEach(function(x){
+    tv($(x[0]), "single-quote", {symbol:x[1], width:"100%", isTransparent:true, colorTheme:theme, locale:"tr"});
+  });
 
   tv($("w-tape"), "ticker-tape", {
     symbols: [
-      {proName:"FX_IDC:USDTRY", title:"Dolar/TL"}, {proName:"TVC:GOLD*FX_IDC:USDTRY/31.1035", title:"Gram altın ₺"},
+      {proName:"FX_IDC:USDTRY", title:"Dolar/TL"}, {proName:"FX_IDC:EURTRY", title:"Euro/TL"}, {proName:"FX_IDC:XAUTRYG", title:"Gram altın ₺"},
       {proName:"FOREXCOM:SPXUSD", title:"S&P 500"}, {proName:"FOREXCOM:NSXUSD", title:"Nasdaq 100"},
       {proName:"FOREXCOM:DJI", title:"Dow Jones"},
       {proName:"BITSTAMP:BTCUSD", title:"Bitcoin"}, {proName:"TVC:GOLD", title:"Altın"},
@@ -320,7 +330,7 @@ details.more p{margin:10px 0 0}
     hisse: [["Nvidia","NASDAQ:NVDA"],["Apple","NASDAQ:AAPL"],["Microsoft","NASDAQ:MSFT"],["Amazon","NASDAQ:AMZN"],["Google","NASDAQ:GOOGL"],["Meta","NASDAQ:META"],["Tesla","NASDAQ:TSLA"],["Palantir","NASDAQ:PLTR"]],
     endeks: [["S&P 500","FOREXCOM:SPXUSD"],["Nasdaq 100","FOREXCOM:NSXUSD"],["Dow Jones","FOREXCOM:DJI"],["VOO · S&P 500 fonu","AMEX:VOO"],["QQQ · Nasdaq 100 fonu","NASDAQ:QQQ"]],
     kripto: [["Bitcoin","BITSTAMP:BTCUSD"],["Ethereum","BITSTAMP:ETHUSD"],["Solana","COINBASE:SOLUSD"]],
-    altin: [["Altın · solda ons, sağda gram","TVC:GOLD","TVC:GOLD*FX_IDC:USDTRY/31.1035"],["Gümüş · solda ons, sağda gram","TVC:SILVER","TVC:SILVER*FX_IDC:USDTRY/31.1035"],["Petrol (WTI) · varil","TVC:USOIL"],["Dolar / Euro karşısında TL","FX_IDC:USDTRY","FX_IDC:EURTRY"]]
+    altin: [["Altın · solda ons ($), sağda gram (₺)","TVC:GOLD","FX_IDC:XAUTRYG"],["Gümüş · solda ons, sağda gram","TVC:SILVER","TVC:SILVER*FX_IDC:USDTRY/31.1035"],["Petrol (WTI) · varil","TVC:USOIL"],["Dolar / Euro karşısında TL","FX_IDC:USDTRY","FX_IDC:EURTRY"]]
   };
   function quote(el, sym){ tv(el, "single-quote", {symbol:sym, width:"100%", isTransparent:true, colorTheme:theme, locale:"tr"}); }
   var boardIO = "IntersectionObserver" in window ? new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ quote(e.target, e.target.dataset.sym); boardIO.unobserve(e.target); } }); }, {rootMargin:"300px"}) : null;
