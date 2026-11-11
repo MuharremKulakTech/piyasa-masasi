@@ -10,6 +10,17 @@ d = json.load(open(sys.argv[1], encoding="utf-8"))
 out = sys.argv[2]
 e = lambda s: html.escape(str(s if s is not None else ""))
 
+IMG = {"logo": 0, "canli": 1, "piyasalar": 2}  # inline attachment order; haber-N = 2 + N
+def img(key, alt, w=552, href=None):
+    src = f"cid:att{IMG[key] if key in IMG else 2 + int(key.split('-')[1])}"
+    tag = f'<img src="{src}" width="{w}" alt="{e(alt)}" style="display:block;width:100%;max-width:{w}px;height:auto;border:0;border-radius:10px;">'
+    return f'<a href="{href}" style="text-decoration:none;">{tag}</a>' if href else tag
+
+def button(label, href, sub=""):
+    return (f'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:14px;"><tr><td align="center" bgcolor="{OR}" style="background:{OR};border-radius:10px;">'
+            f'<a href="{href}" style="display:block;padding:15px 10px;color:#ffffff;font-size:18px;font-weight:bold;text-decoration:none;">{e(label)}</a></td></tr></table>'
+            + (f'<p style="font-size:13px;color:#555;text-align:center;margin:8px 0 0;">{e(sub)}</p>' if sub else ""))
+
 def pct(c):
     if c is None or c == "":
         return ""
@@ -46,14 +57,15 @@ parts = []
 mk = [row(i["name"], "", num(i.get("value")), i.get("chg")) for i in d.get("indices", [])]
 mk += [row(m["name"], "", e(m.get("value")), m.get("chg")) for m in d.get("macro", [])]
 mk += [row(c.get("name"), "", ("$" + num(c["price"])) if c.get("price") is not None else "—", c.get("chg")) for c in d.get("crypto", [])]
-parts.append(section("Piyasalar · önceki kapanış", table(mk) +
-    f'<p style="font-size:13px;color:#555;margin:12px 0 0;">Canlı dolar ve TL fiyatları, Dolar/TL, Euro/TL ve gram altın için <a href="{SITE}/#fiyatlar" style="color:{DK};font-weight:bold;">sitedeki canlı tabloya</a> bak.</p>'))
+parts.append(section("Piyasalar · önceki kapanış", '<div style="margin-top:14px;">' + img("piyasalar", "Endeks, emtia ve kriptoda günlük değişim grafiği") + "</div>"))
+parts.append(section("Canlı izle", '<div style="margin-top:14px;">' + img("canli", "Dolar/TL, Euro/TL, gram altın ve ABD hisselerini portalda canlı izle", href=SITE + "/#fiyatlar") + "</div>" +
+    button("Canlı fiyatları portalda izle →", SITE + "/#fiyatlar", "Dolar/TL, Euro/TL, gram altın ve ABD hisselerinin dolar ve TL fiyatlarını bu portaldan anlık izleyebilirsiniz.")))
 
 cards = ""
 for i, n in enumerate(news[:6]):
     tick = " · ".join(n.get("tickers", [])[:4])
     cards += (f'<div style="padding:16px 0;border-bottom:1px solid #eeeeee;">'
-              + (f'<div style="font-size:11px;font-weight:bold;letter-spacing:1px;color:#777;text-transform:uppercase;margin-bottom:6px;">{e(n.get("sector",""))}{" · " + e(tick) if tick else ""}</div>' if (n.get("sector") or tick) else "")
+              + f'<div style="margin-bottom:12px;">{img(f"haber-{i+1}", n.get("sector") or "Haber", href=SITE + f"/#haber-{i+1}")}</div>'
               + f'<div style="font-size:18px;font-weight:bold;color:#111;line-height:1.3;">{e(n["title"])}</div>'
               f'<p style="font-size:14px;line-height:1.55;color:#333;margin:6px 0 6px;">{e(n.get("summary",""))}</p>'
               + (f'<p style="font-size:14px;line-height:1.5;color:{DK};margin:0;"><b>Bu ne demek?</b> {e(n["anlami"])}</p>' if n.get("anlami") else "")
@@ -79,20 +91,18 @@ if cal:
 dt = d.get("asOfLabel", d.get("date", ""))
 H = f'''<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f2f2f2;"><tr><td align="center" style="padding:16px 8px;">
 <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:600px;background:#ffffff;font-family:Arial,Helvetica,sans-serif;color:#1a1a1a;">
-<tr><td align="center" style="background:{OR};padding:12px 16px;"><a href="{SITE}/#fiyatlar" style="color:#1a1a1a;font-size:15px;font-weight:bold;text-decoration:underline;">Canlı fiyatlar: Dolar/TL, Euro/TL, gram altın ve ABD hisseleri</a></td></tr>
-<tr><td style="background:#000000;padding:22px 24px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
-<td style="font-size:30px;font-weight:bold;color:#ffffff;letter-spacing:-1px;">Piyasa<span style="color:#f97316;">Masası</span><div style="font-size:12px;font-weight:normal;color:#bdbdbd;letter-spacing:0;margin-top:6px;">ABD borsası, sade Türkçe ile</div></td>
-<td align="right" valign="top"><a href="{SITE}" style="color:#ffffff;font-size:12px;text-decoration:underline;">Çevrimiçi sürüm</a></td></tr></table></td></tr>
+<tr><td align="center" bgcolor="{OR}" style="background:{OR};padding:12px 16px;"><a href="{SITE}/#fiyatlar" style="color:#1a1a1a;font-size:15px;font-weight:bold;text-decoration:underline;">Canlı fiyatlar: Dolar/TL, Euro/TL, gram altın ve ABD hisseleri</a></td></tr>
+<tr><td bgcolor="#000000" style="background:#000000;padding:0;"><a href="{SITE}" style="text-decoration:none;"><img src="cid:att0" width="600" alt="PiyasaMasası · ABD borsası, sade Türkçe ile" style="display:block;width:100%;max-width:600px;height:auto;border:0;"></a></td></tr>
 <tr><td style="padding:22px 24px 0 24px;"><div style="font-size:14px;color:#555555;"><b>Günün Özeti</b> | {e(dt)}</div>
 <div style="border-top:2px solid #dddddd;margin:14px 0 16px 0;"></div>
 <div style="font-size:28px;line-height:1.25;font-weight:bold;color:#111111;">{e(d.get("headline"))}</div>
 <div style="font-size:12px;font-weight:bold;letter-spacing:1px;color:{OR};text-transform:uppercase;margin:22px 0 6px;">30 saniyede bugün</div>
 <table role="presentation" cellpadding="0" cellspacing="0" border="0">{quick_html}</table>
 <p style="font-size:15px;line-height:1.55;color:#333333;margin:16px 0 20px 0;">{e(d.get("summary"))}</p>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="center" style="background:{OR};border-radius:10px;">
-<a href="{SITE}" style="display:block;padding:14px 0;color:#ffffff;font-size:18px;font-weight:bold;text-decoration:none;">Canlı grafiklerle sitede oku</a></td></tr></table></td></tr>
+{button("Portala git: fiyatları canlı izle →", SITE, "Haberlerin canlı grafiklerini, Dolar/TL'yi ve gram altını bu portaldan anlık takip edebilirsiniz.")}</td></tr>
 <tr><td style="padding:14px 24px 0 24px;"><div style="background:#fff1e6;border-radius:8px;padding:10px 12px;font-size:12px;color:#333;">Bu bülten yalnızca haber ve bilgi amaçlıdır; <b>yatırım tavsiyesi değildir</b>.</div></td></tr>
 {"".join(parts)}
+<tr><td style="padding:24px 24px 0 24px;">{button("Piyasa Masası portalını aç →", SITE)}</td></tr>
 <tr><td style="padding:28px 24px 24px 24px;"><div style="border-top:1px solid #dddddd;padding-top:14px;font-size:12px;line-height:1.6;color:#888888;">
 <b style="color:#555;">Yasal uyarı:</b> Piyasa Masası, ABD piyasalarıyla ilgili kamuya açık haberlerin Türkçe özetidir. Buradaki bilgi ve yorumlar yatırım danışmanlığı kapsamında değildir ve hiçbir menkul kıymetin alım-satımı için öneri niteliği taşımaz.<br><br>
 Bu e-postayı Piyasa Masası'na abone olduğun için aldın. Bülteni bırakmak için bu e-postayı "abonelikten çık" yazarak yanıtlaman yeterli.<br>
