@@ -127,8 +127,17 @@ details.more p{margin:10px 0 0}
 .seg button{border:1px solid var(--line);background:var(--paper);color:var(--text);border-radius:999px;padding:8px 14px;font:600 14px var(--f-body);cursor:pointer}
 .seg button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
 .seg button:focus-visible{outline:3px solid color-mix(in srgb,var(--orange) 45%,transparent);outline-offset:2px}
-.w-quotes{height:1080px}
-@media (min-width:600px){.w-quotes{height:900px}}
+.board{display:grid;gap:10px}
+.pair{border:1px solid var(--line);border-radius:10px;background:var(--paper);overflow:hidden}
+.pair-name{font:700 15px var(--f-body);color:var(--ink);padding:10px 14px;border-bottom:1px solid var(--line);background:var(--ground)}
+.pair-cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.pair-col{padding:8px 4px 0;min-width:0}
+.pair-col + .pair-col{border-left:1px solid var(--line)}
+.cur{display:inline-block;margin-left:10px;font:800 11px/1 var(--f-body);letter-spacing:.08em;padding:5px 8px;border-radius:4px}
+.cur.usd{background:#e8f0fe;color:#1d4ed8}
+.cur.try{background:#fde8e8;color:#b91c1c}
+.q{height:96px}
+@media (max-width:480px){.q{height:112px}}
 </style>
 </head>
 <body>
@@ -169,8 +178,14 @@ details.more p{margin:10px 0 0}
 
   <section class="sec pad" id="fiyatlar" aria-labelledby="h-px">
     <h2 class="sec-title" id="h-px">Fiyatlar: dolar ($) ve TL (₺)</h2>
-    <p class="sec-sub">Her dolar fiyatının hemen altında aynı fiyatın TL karşılığı var. TL fiyatı canlı dolar/TL kuruyla hesaplanır; TL'deki değişime kurdaki hareket de dahildir. Üstteki sekmelerden grup seçebilirsin.</p>
-    <div class="widget w-quotes" id="w-quotes"></div>
+    <p class="sec-sub">Solda dolar fiyatı (USD), sağda aynı varlığın Türk lirası karşılığı (TRY) var. TL fiyatı canlı dolar/TL kuruyla hesaplanır; TL'deki değişime kurdaki hareket de dahildir.</p>
+    <div class="seg" role="group" aria-label="Fiyat grubu">
+      <button type="button" data-g="hisse" aria-pressed="true">Dev şirketler</button>
+      <button type="button" data-g="endeks" aria-pressed="false">Endeksler</button>
+      <button type="button" data-g="kripto" aria-pressed="false">Kripto</button>
+      <button type="button" data-g="altin" aria-pressed="false">Altın &amp; döviz</button>
+    </div>
+    <div class="board" id="w-quotes"></div>
   </section>
 
   <section class="sec pad" id="haberler" aria-labelledby="h-news">
@@ -300,20 +315,30 @@ details.more p{margin:10px 0 0}
     hasSymbolTooltip:true, isMonoSize:false, width:"100%", height:"100%"
   });
 
-  // $ / ₺ price board: each item shows a dollar row and a lira row
+  // $ / ₺ price board: one card per asset, dollar quote on the left, lira quote on the right
   var GROUPS = {
-    hisse: {name:"Dev şirketler", items:[["NASDAQ:NVDA","Nvidia"],["NASDAQ:AAPL","Apple"],["NASDAQ:MSFT","Microsoft"],["NASDAQ:AMZN","Amazon"],["NASDAQ:GOOGL","Google"],["NASDAQ:META","Meta"],["NASDAQ:TSLA","Tesla"],["NASDAQ:PLTR","Palantir"]]},
-    endeks: {name:"Endeksler", items:[["FOREXCOM:SPXUSD","S&P 500"],["FOREXCOM:NSXUSD","Nasdaq 100"],["FOREXCOM:DJI","Dow Jones"],["AMEX:VOO","VOO (S&P 500 fonu)"],["NASDAQ:QQQ","QQQ (Nasdaq 100 fonu)"]]},
-    kripto: {name:"Kripto", items:[["BITSTAMP:BTCUSD","Bitcoin"],["BITSTAMP:ETHUSD","Ethereum"],["COINBASE:SOLUSD","Solana"]]},
-    altin: {name:"Altın & döviz", raw:[["TVC:GOLD","Ons altın ($)"],["TVC:GOLD*FX_IDC:USDTRY/31.1035","Gram altın (₺)"],["TVC:SILVER","Ons gümüş ($)"],["FX_IDC:USDTRY","Dolar/TL"],["FX_IDC:EURTRY","Euro/TL"],["TVC:USOIL","Petrol WTI ($)"]]}
+    hisse: [["Nvidia","NASDAQ:NVDA"],["Apple","NASDAQ:AAPL"],["Microsoft","NASDAQ:MSFT"],["Amazon","NASDAQ:AMZN"],["Google","NASDAQ:GOOGL"],["Meta","NASDAQ:META"],["Tesla","NASDAQ:TSLA"],["Palantir","NASDAQ:PLTR"]],
+    endeks: [["S&P 500","FOREXCOM:SPXUSD"],["Nasdaq 100","FOREXCOM:NSXUSD"],["Dow Jones","FOREXCOM:DJI"],["VOO · S&P 500 fonu","AMEX:VOO"],["QQQ · Nasdaq 100 fonu","NASDAQ:QQQ"]],
+    kripto: [["Bitcoin","BITSTAMP:BTCUSD"],["Ethereum","BITSTAMP:ETHUSD"],["Solana","COINBASE:SOLUSD"]],
+    altin: [["Altın · solda ons, sağda gram","TVC:GOLD","TVC:GOLD*FX_IDC:USDTRY/31.1035"],["Gümüş · solda ons, sağda gram","TVC:SILVER","TVC:SILVER*FX_IDC:USDTRY/31.1035"],["Petrol (WTI) · varil","TVC:USOIL"],["Dolar / Euro karşısında TL","FX_IDC:USDTRY","FX_IDC:EURTRY"]]
   };
-  var tabs = ["hisse", "endeks", "kripto", "altin"].map(function(key){
-    var g = GROUPS[key], syms = [];
-    if (g.raw) g.raw.forEach(function(x){ syms.push({s:x[0], d:x[1]}); });
-    else g.items.forEach(function(x){ syms.push({s:x[0], d:x[1] + " · dolar ($)"}); syms.push({s:tl(x[0]), d:x[1] + " · TL (₺)"}); });
-    return {title:g.name, symbols:syms};
-  });
-  tv($("w-quotes"), "market-overview", {colorTheme:theme, dateRange:"1D", showChart:false, locale:"tr", width:"100%", height:"100%", isTransparent:true, showSymbolLogo:true, showFloatingTooltip:false, tabs:tabs});
+  function quote(el, sym){ tv(el, "single-quote", {symbol:sym, width:"100%", isTransparent:true, colorTheme:theme, locale:"tr"}); }
+  var boardIO = "IntersectionObserver" in window ? new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ quote(e.target, e.target.dataset.sym); boardIO.unobserve(e.target); } }); }, {rootMargin:"300px"}) : null;
+  function showGroup(key){
+    $("w-quotes").innerHTML = GROUPS[key].map(function(x){
+      var usd = x[1], tr = x[2] || tl(x[1]);
+      var lblL = key === "altin" && x[0].indexOf("Dolar") === 0 ? "DOLAR / TL" : "DOLAR ($)";
+      var lblR = key === "altin" && x[0].indexOf("Dolar") === 0 ? "EURO / TL" : "TÜRK LİRASI (₺)";
+      return '<div class="pair"><div class="pair-name">' + esc(x[0]) + '</div><div class="pair-cols">' +
+        '<div class="pair-col"><span class="cur usd">' + lblL + '</span><div class="q" data-sym="' + esc(usd) + '"></div></div>' +
+        '<div class="pair-col"><span class="cur try">' + lblR + '</span><div class="q" data-sym="' + esc(tr) + '"></div></div>' +
+        "</div></div>";
+    }).join("");
+    Array.prototype.forEach.call($("w-quotes").querySelectorAll(".q"), function(q){ if (boardIO) boardIO.observe(q); else quote(q, q.dataset.sym); });
+    Array.prototype.forEach.call(document.querySelectorAll(".seg button"), function(b){ b.setAttribute("aria-pressed", b.dataset.g === key ? "true" : "false"); });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll(".seg button"), function(b){ b.addEventListener("click", function(){ showGroup(b.dataset.g); }); });
+  showGroup("hisse");
 
   // US market clock in Türkiye time (NYSE regular hours 09:30-16:00 New York, holidays and half days included)
   var HOLIDAYS = {"2026-11-26":1,"2026-12-25":1,"2027-01-01":1,"2027-01-18":1,"2027-02-15":1,"2027-03-26":1,"2027-05-31":1,"2027-06-18":1,"2027-07-05":1,"2027-09-06":1,"2027-11-25":1,"2027-12-24":1};
