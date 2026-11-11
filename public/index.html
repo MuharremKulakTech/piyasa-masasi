@@ -98,6 +98,36 @@ textarea{min-height:90px;resize:vertical}
 .foot{padding-block:24px 30px;font-size:12px;line-height:1.6;color:var(--muted);border-top:1px solid var(--line);margin-top:26px}
 .foot strong{color:var(--ink)}
 .empty{color:var(--muted);font-size:14px}
+
+/* now strip: market clock + dollar/TL */
+.now{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:12px;padding-block:16px;background:var(--ground)}
+@media (max-width:560px){.now{grid-template-columns:minmax(0,1fr)}}
+.clock{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:4px;align-content:center}
+.state{display:flex;align-items:center;gap:8px;font:800 17px/1.2 var(--f-display);color:var(--ink)}
+.state i{width:10px;height:10px;border-radius:50%;background:var(--muted);flex:none}
+.state.open i{background:#22c55e;box-shadow:0 0 0 4px color-mix(in srgb,#22c55e 25%,transparent)}
+.state.pre i{background:#f59e0b}
+.cd{font-size:15px;color:var(--text);font-variant-numeric:tabular-nums}
+.cd b{color:var(--ink)}
+.tz{font-size:12px;color:var(--muted)}
+.usdtry{background:var(--paper);border:1px solid var(--line);border-radius:10px;overflow:hidden;min-height:96px}
+
+/* 30-second summary */
+.quick{list-style:none;margin:0 0 18px;padding:0;display:grid;gap:10px}
+.quick li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start;font-size:16px;line-height:1.4}
+.quick li span{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--orange);color:#fff;font:700 14px var(--f-body)}
+.quick a{color:var(--ink);text-decoration:none;font-weight:600}
+.quick a:hover{text-decoration:underline}
+details.more{margin:0 0 20px}
+details.more summary{cursor:pointer;color:var(--orange-ink);font-weight:600;font-size:15px}
+details.more p{margin:10px 0 0}
+
+/* $ / TL price board */
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin:4px 0 12px}
+.seg button{border:1px solid var(--line);background:var(--paper);color:var(--text);border-radius:999px;padding:8px 14px;font:600 14px var(--f-body);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.seg button:focus-visible{outline:3px solid color-mix(in srgb,var(--orange) 45%,transparent);outline-offset:2px}
+.w-quotes{height:560px}
 </style>
 </head>
 <body>
@@ -110,11 +140,22 @@ textarea{min-height:90px;resize:vertical}
   </header>
   <div class="tape" id="w-tape" aria-label="Canlı piyasa fiyatları"></div>
 
+  <div class="now pad" aria-label="Borsa saati ve dolar kuru">
+    <div class="clock" aria-live="polite">
+      <div class="state" id="mk-state"><i></i><span id="mk-label">ABD borsası</span></div>
+      <div class="cd" id="mk-cd">&nbsp;</div>
+      <div class="tz" id="mk-tz">&nbsp;</div>
+    </div>
+    <div class="usdtry" id="w-usdtry" aria-label="Dolar/TL canlı kur"></div>
+  </div>
+
   <section class="lead pad">
     <div class="kicker"><b>Günün Özeti</b> | <span id="date-label">…</span></div>
     <hr class="rule">
     <h1 id="headline">Bugünün raporu yükleniyor</h1>
-    <p class="summary" id="summary">Amerikan borsasının günlük haberleri, borsa açılmadan önce (Türkiye saatiyle 17:30) sade Türkçe ile burada.</p>
+    <p class="sec-title" style="margin-top:20px">30 saniyede bugün</p>
+    <ol class="quick" id="quick"><li><span>1</span><div class="empty">Yükleniyor…</div></li></ol>
+    <details class="more"><summary>Günün detaylı özeti</summary><p class="summary" id="summary" style="margin:10px 0 0"></p></details>
     <a class="cta" href="#haberler">Günün haberlerini oku</a>
   </section>
   <div class="notice pad">Bu site yalnızca haber ve bilgi amaçlıdır; burada yazılanlar <strong>yatırım tavsiyesi değildir</strong>.</div>
@@ -123,6 +164,18 @@ textarea{min-height:90px;resize:vertical}
     <h2 class="sec-title" id="h-live">Canlı piyasa</h2>
     <p class="sec-sub">Endeksler, kripto, emtia ve dolar/TL. Fiyatlar canlı veya birkaç dakika gecikmeli gelir.</p>
     <div class="widget w-overview" id="w-overview"></div>
+  </section>
+
+  <section class="sec pad" id="fiyatlar" aria-labelledby="h-px">
+    <h2 class="sec-title" id="h-px">Fiyatlar: dolar ($) ve TL (₺)</h2>
+    <p class="sec-sub">Her satırın altında aynı fiyatın Türk lirası karşılığı var. TL fiyatı, canlı dolar/TL kuruyla hesaplanır; TL'deki değişim kurdaki hareketi de içerir.</p>
+    <div class="seg" role="group" aria-label="Fiyat grubu">
+      <button type="button" data-g="hisse" aria-pressed="true">Dev şirketler</button>
+      <button type="button" data-g="endeks" aria-pressed="false">Endeksler &amp; fonlar</button>
+      <button type="button" data-g="kripto" aria-pressed="false">Kripto</button>
+      <button type="button" data-g="altin" aria-pressed="false">Altın &amp; döviz</button>
+    </div>
+    <div class="widget w-quotes" id="w-quotes"></div>
   </section>
 
   <section class="sec pad" id="haberler" aria-labelledby="h-news">
@@ -222,10 +275,15 @@ textarea{min-height:90px;resize:vertical}
   var TV_MAP = {"BRK.B":"NYSE:BRK.B","SPCX":"NASDAQ:SPCX","VOO":"AMEX:VOO","SPY":"AMEX:SPY","QQQ":"NASDAQ:QQQ"};
   function tvSym(t){ t = String(t || "").toUpperCase().trim(); return TV_MAP[t] || t; }
 
+  var USDTRY = "FX_IDC:USDTRY";
+  function tl(sym){ return sym + "*" + USDTRY; }
+  tv($("w-usdtry"), "single-quote", {symbol:USDTRY, width:"100%", isTransparent:true, colorTheme:theme, locale:"tr"});
+
   tv($("w-tape"), "ticker-tape", {
     symbols: [
+      {proName:"FX_IDC:USDTRY", title:"Dolar/TL"}, {proName:"TVC:GOLD*FX_IDC:USDTRY/31.1035", title:"Gram altın ₺"},
       {proName:"FOREXCOM:SPXUSD", title:"S&P 500"}, {proName:"FOREXCOM:NSXUSD", title:"Nasdaq 100"},
-      {proName:"FOREXCOM:DJI", title:"Dow Jones"}, {proName:"FX_IDC:USDTRY", title:"Dolar/TL"},
+      {proName:"FOREXCOM:DJI", title:"Dow Jones"},
       {proName:"BITSTAMP:BTCUSD", title:"Bitcoin"}, {proName:"TVC:GOLD", title:"Altın"},
       {proName:"TVC:USOIL", title:"Petrol"}, {proName:"NASDAQ:NVDA", title:"Nvidia"},
       {proName:"NASDAQ:AAPL", title:"Apple"}, {proName:"NASDAQ:TSLA", title:"Tesla"}, {proName:"NASDAQ:MSFT", title:"Microsoft"}
@@ -247,6 +305,57 @@ textarea{min-height:90px;resize:vertical}
     hasSymbolTooltip:true, isMonoSize:false, width:"100%", height:"100%"
   });
 
+  // $ / ₺ price board: each item shows a dollar row and a lira row
+  var GROUPS = {
+    hisse: {name:"Dev şirketler", items:[["NASDAQ:NVDA","Nvidia"],["NASDAQ:AAPL","Apple"],["NASDAQ:MSFT","Microsoft"],["NASDAQ:AMZN","Amazon"],["NASDAQ:GOOGL","Alphabet (Google)"],["NASDAQ:META","Meta"],["NASDAQ:TSLA","Tesla"],["NASDAQ:AVGO","Broadcom"],["NASDAQ:PLTR","Palantir"],["NASDAQ:AMD","AMD"],["NASDAQ:NFLX","Netflix"],["NASDAQ:SPCX","SpaceX"]]},
+    endeks: {name:"Endeksler ve fonlar", items:[["FOREXCOM:SPXUSD","S&P 500"],["FOREXCOM:NSXUSD","Nasdaq 100"],["FOREXCOM:DJI","Dow Jones"],["AMEX:VOO","VOO (S&P 500 fonu)"],["NASDAQ:QQQ","QQQ (Nasdaq 100 fonu)"]]},
+    kripto: {name:"Kripto", items:[["BITSTAMP:BTCUSD","Bitcoin"],["BITSTAMP:ETHUSD","Ethereum"],["COINBASE:SOLUSD","Solana"]]},
+    altin: {name:"Altın ve döviz", raw:[["TVC:GOLD","Ons altın ($)"],["TVC:GOLD*FX_IDC:USDTRY/31.1035","Gram altın (₺)"],["TVC:SILVER","Ons gümüş ($)"],["FX_IDC:USDTRY","Dolar/TL"],["FX_IDC:EURTRY","Euro/TL"],["TVC:USOIL","Petrol WTI ($)"]]}
+  };
+  function showGroup(key){
+    var g = GROUPS[key], syms = [];
+    if (g.raw) g.raw.forEach(function(x){ syms.push({name:x[0], displayName:x[1]}); });
+    else g.items.forEach(function(x){ syms.push({name:x[0], displayName:x[1] + " ($)"}); syms.push({name:tl(x[0]), displayName:x[1] + " (₺)"}); });
+    $("w-quotes").style.height = Math.min(980, 96 + syms.length * 33) + "px";
+    tv($("w-quotes"), "market-quotes", {width:"100%", height:"100%", symbolsGroups:[{name:g.name, symbols:syms}], showSymbolLogo:true, isTransparent:true, colorTheme:theme, locale:"tr"});
+    Array.prototype.forEach.call(document.querySelectorAll(".seg button"), function(b){ b.setAttribute("aria-pressed", b.dataset.g === key ? "true" : "false"); });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll(".seg button"), function(b){ b.addEventListener("click", function(){ showGroup(b.dataset.g); }); });
+  showGroup("hisse");
+
+  // US market clock in Türkiye time (NYSE regular hours 09:30-16:00 New York, holidays and half days included)
+  var HOLIDAYS = {"2026-11-26":1,"2026-12-25":1,"2027-01-01":1,"2027-01-18":1,"2027-02-15":1,"2027-03-26":1,"2027-05-31":1,"2027-06-18":1,"2027-07-05":1,"2027-09-06":1,"2027-11-25":1,"2027-12-24":1};
+  var HALF = {"2026-11-27":1,"2026-12-24":1,"2027-11-26":1};
+  function nyNow(d){
+    var p = {}; new Intl.DateTimeFormat("en-US", {timeZone:"America/New_York", year:"numeric", month:"2-digit", day:"2-digit", hour:"2-digit", minute:"2-digit", hourCycle:"h23", weekday:"short"}).formatToParts(d).forEach(function(x){ p[x.type] = x.value; });
+    return {ymd: p.year + "-" + p.month + "-" + p.day, wd: p.weekday, min: (+p.hour % 24) * 60 + (+p.minute)};
+  }
+  function addDays(ymd, k){ var t = new Date(ymd + "T12:00:00Z"); t.setUTCDate(t.getUTCDate() + k); return t.toISOString().slice(0, 10); }
+  function wdOf(ymd){ return ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][new Date(ymd + "T12:00:00Z").getUTCDay()]; }
+  function trading(ymd){ var w = wdOf(ymd); return w !== "Sat" && w !== "Sun" && !HOLIDAYS[ymd]; }
+  function dur(m){ var h = Math.floor(m / 60), r = m % 60; return (h ? h + " sa " : "") + r + " dk"; }
+  function trTime(d, withDay){ return d.toLocaleString("tr-TR", {timeZone:"Europe/Istanbul", hour:"2-digit", minute:"2-digit", weekday: withDay ? "long" : undefined}); }
+  function tick(){
+    var now = new Date(), n = nyNow(now), OPEN = 570, close = HALF[n.ymd] ? 780 : 960;
+    var st = $("mk-state"), label, cd;
+    if (trading(n.ymd) && n.min >= OPEN && n.min < close){
+      st.className = "state open"; label = "ABD borsası açık";
+      cd = "Kapanışa <b>" + dur(close - n.min) + "</b> · TSİ " + trTime(new Date(now.getTime() + (close - n.min) * 60000)) + (HALF[n.ymd] ? " (bugün yarım gün)" : "");
+    } else {
+      var k = 0, ymd = n.ymd, delta;
+      if (trading(ymd) && n.min < OPEN){ delta = OPEN - n.min; }
+      else { do { k++; ymd = addDays(n.ymd, k); } while (!trading(ymd) && k < 10); delta = k * 1440 - n.min + OPEN; }
+      var at = new Date(now.getTime() + delta * 60000);
+      var pre = trading(n.ymd) && n.min >= 240 && n.min < OPEN;
+      st.className = "state" + (pre ? " pre" : ""); label = pre ? "Açılış öncesi işlemler sürüyor" : (HOLIDAYS[n.ymd] ? "ABD borsası bugün tatil" : "ABD borsası kapalı");
+      cd = "Açılışa <b>" + dur(delta) + "</b> · TSİ " + trTime(at, delta >= 720);
+    }
+    $("mk-label").textContent = label; $("mk-cd").innerHTML = cd;
+    var diff = Math.round(((+now.toLocaleString("en-US", {timeZone:"Europe/Istanbul", hour:"numeric", hourCycle:"h23"})) - (+now.toLocaleString("en-US", {timeZone:"America/New_York", hour:"numeric", hourCycle:"h23"})) + 24) % 24);
+    $("mk-tz").textContent = "Türkiye saati şu an " + trTime(now) + " · New York ile fark " + diff + " saat";
+  }
+  tick(); setInterval(tick, 30000);
+
   function getJSON(path){
     var bust = "?t=" + Math.floor(Date.now() / 300000);
     return fetch("/data/" + path + bust).then(function(r){ if (!r.ok) throw 0; return r.json(); })
@@ -256,16 +365,18 @@ textarea{min-height:90px;resize:vertical}
 
   function render(d){
     $("headline").textContent = d.headline || "Günün özeti";
-    $("summary").textContent = d.summary ? "Piyasa Masası — " + d.summary : "";
+    $("summary").textContent = d.summary || "";
     $("date-label").textContent = d.date ? trDate(d.date, {day:"numeric", month:"long", year:"numeric", weekday:"long"}) : "";
 
     var news = d.news || [];
+    var quick = (d.ozet3 && d.ozet3.length ? d.ozet3 : news.slice(0, 3).map(function(n){ return n.title; })).slice(0, 3);
+    $("quick").innerHTML = quick.map(function(t, i){ return '<li><span>' + (i + 1) + '</span><a href="#haber-' + (i + 1) + '">' + esc(t) + "</a></li>"; }).join("") || '<li><span>1</span><div class="empty">Bugün için özet yok.</div></li>';
     $("news").innerHTML = news.length ? news.map(function(n, i){
       var imp = n.impact === "up" ? '<span class="tag up">Olumlu</span>' : n.impact === "down" ? '<span class="tag down">Olumsuz</span>' : "";
       var tags = imp + (n.sector ? '<span class="tag">' + esc(n.sector) + "</span>" : "");
       (n.tickers || []).forEach(function(t){ tags += '<span class="tag tk">' + esc(t) + "</span>"; });
       var chart = (n.tickers && n.tickers.length) ? '<div class="chart" data-sym="' + esc(n.tickers[0]) + '"></div>' : "";
-      return '<article class="story"><div class="tags">' + tags + "</div><h3>" + esc(n.title) + "</h3><p>" + esc(n.summary) + "</p>" + chart +
+      return '<article class="story" id="haber-' + (i + 1) + '"><div class="tags">' + tags + "</div><h3>" + esc(n.title) + "</h3><p>" + esc(n.summary) + "</p>" + chart +
         (n.anlami ? '<p class="means"><b>Bu ne demek?</b> ' + esc(n.anlami) + "</p>" : "") + "</article>";
     }).join("") : '<p class="empty">Bugün için haber yok.</p>';
 
